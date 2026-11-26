@@ -1,0 +1,51 @@
+{
+  "name": "clients-dashboard",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "postinstall": "npm run codegen",
+    "codegen": "npm run codegen --workspaces --if-present",
+    "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w web-app\"",
+    "build": "npm run build -w web-app",
+    "start": "npm run start -w server",
+    "lint": "eslint --max-warnings 0 && prettier --check .",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "ct": "npm run web-app -w e2e -- --project components",
+    "ct:ui": "npm run ct -- --ui",
+    "e2e": "npm run web-app -w e2e -- --project e2e",
+    "e2e:ui": "npm run e2e -- --ui"
+  },
+  "devDependencies": {
+    "@danilqa/eslint-plugin-ts-pattern": "0.0.4",
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "concurrently": "10.0.7",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-import-x": "4.18.1",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-playwright": "2.12.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-unicorn": "80.0.0",
+    "prettier": "3.10.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "typescript-eslint": "8.74.0"
+  },
+  "overrides": {
+    "eslint-plugin-jsx-a11y": {
+      "eslint": "$eslint"
+    },
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    }
+  }
+}

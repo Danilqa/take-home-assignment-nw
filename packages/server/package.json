@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.ts",
+    "start": "node index.ts",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "domains": "*",
+    "sirv": "3.0.2",
+    "ts-pattern": "5.9.2"
+  }
+}

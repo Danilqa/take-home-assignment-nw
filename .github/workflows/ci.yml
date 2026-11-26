@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  format:
+    name: 🎨 Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Set up the workspace
+        uses: ./.github/actions/setup
+      - name: Check the formatting with Prettier
+        run: npx prettier --check .
+
+  lint:
+    name: 🧹 Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Set up the workspace
+        uses: ./.github/actions/setup
+      - name: Lint with ESLint
+        run: npx eslint --max-warnings 0
+
+  typecheck:
+    name: 🔷 Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Set up the workspace
+        uses: ./.github/actions/setup
+      - name: Typecheck every package
+        run: npm run typecheck
+
+  unit-tests:
+    name: 🧪 Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Set up the workspace
+        uses: ./.github/actions/setup
+      - name: Run the unit tests of every package
+        run: npm test
+
+  web-app:
+    name: 🌐 Web app build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Set up the workspace
+        uses: ./.github/actions/setup
+      - name: Build the web app
+        run: npm run build
+
+  component-tests:
+    name: 🧩 Component tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Set up the workspace
+        uses: ./.github/actions/setup
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Run the Playwright component tests
+        run: npm run ct
+      - name: Upload the Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: component-test-traces
+          path: packages/e2e/web-app/test-results/
+
+  e2e:
+    name: 🎭 E2E tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Set up the workspace
+        uses: ./.github/actions/setup
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Run the Playwright tests against the real API
+        run: npm run e2e
+      - name: Upload the Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-traces
+          path: packages/e2e/web-app/test-results/
