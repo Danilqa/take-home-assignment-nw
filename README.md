@@ -20,7 +20,9 @@ npm run lint
 npm run typecheck
 npm test        # unit
 npm run ct      # components, in Playwright
+npm run ct:ui   # components, in Playwright UI mode
 npm run e2e     # end to end, in Playwright
+npm run e2e:ui  # end to end, in Playwright UI mode
 ```
 
 Run `npx playwright install chromium` once before the first `ct` or `e2e` run.
