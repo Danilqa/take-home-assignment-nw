@@ -1,0 +1,31 @@
+{
+  "name": "design-system",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./*/index.ts"
+  },
+  "scripts": {
+    "codegen": "panda codegen",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-aria-components": "1.22.1",
+    "react-dom": "19.3.1",
+    "react-error-boundary": "6.1.6",
+    "react-is": "19.3.1",
+    "recharts": "3.11.0"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "2.6.0",
+    "@pandacss/preset-base": "2.6.0",
+    "@playwright/test": "1.65.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "postcss": "8.5.33",
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
+  }
+}
